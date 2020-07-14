@@ -58,11 +58,9 @@ class Application {
     }
     */
 
-    public static Connection getRemoteConnection() {
+    public static Connection getRemoteConnection() throws SQLException, ClassNotFoundException {
 
-
-            try {
-                Class.forName("org.postgresql.Driver");
+                Class.forName("org.postgresql.Driver"); //<--pepehands
                 String dbName = System.getenv("yoinkName");
                 String userName = System.getenv("admin");
                 String password = System.getenv("mjaso3000");
@@ -73,12 +71,10 @@ class Application {
                 Connection conn = DriverManager.getConnection(jdbcUrl);
                 log.info("Remote connection successful.");
 
-
-
                 String query = "SELECT * FROM users";
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
-                try {
+
                     while (rs.next()) {
                         System.out.println("does this work even");
                         int id = rs.getInt("id");
@@ -90,25 +86,20 @@ class Application {
                         System.out.format("%s, %s, %s, %s\n", id, name, age, questionmark);
                     }
                     st.close();
-                } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-
             return conn;
             }
-            catch (ClassNotFoundException e) { log.warn(e.toString());}
-            catch (SQLException e) { log.warn(e.toString());}
 
-        return null;
-    }
 
-    public static void main(String[] args) throws IOException {
+
+
+
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
         //SpringApplication.run(Application.class, args);
         //ApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfig.class);
-        System.out.println("test");
         getRemoteConnection();
     }
 
 
 }
+
 
