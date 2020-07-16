@@ -1,6 +1,5 @@
-package com.java.app;
+package com.java;
 
-import com.java.SpringConfig;
 import org.springframework.boot.SpringApplication;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 //@EnableAutoConfiguration
 @SpringBootApplication//(exclude = {DataSourceAutoConfiguration.class })
 @ComponentScan({"com.java.controller"})
+@ComponentScan({"com.java.Customer"})
 //@PropertySource(value = "application.properties")
 //@EnableJpaRepositories(basePackages = "com.java.Repository")
 class Application {
