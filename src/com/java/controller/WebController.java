@@ -1,11 +1,14 @@
 package com.java.controller;
 
 import com.java.Customer.Customer;
+import com.java.goods.ChangeGoodsQuantity;
+import com.java.goods.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -13,29 +16,61 @@ import java.util.List;
 public class WebController {
 
 @Autowired
-    Customer customer;
+Customer customer;
+@Autowired
+SQLController sqlController;
+@Autowired
+Goods goods;
+@Autowired
+ChangeGoodsQuantity changeGoodsQuantity;
 
     @RequestMapping("/testget")
-    public List<String> test() throws SQLException {
-        List<String> test = new ArrayList();
-        Connection conn = DriverManager.getConnection("jdbc:mysql://database-1.coaeroq78uw6.eu-central-1.rds.amazonaws.com/test_schema","admin", "mjaso3000");
-        Statement statement = conn.createStatement();
+    public HashMap<String, List<String>> test() throws SQLException {
+        List<String> id = new ArrayList();
+        List<String> text = new ArrayList();
+        List<String> more_id = new ArrayList();
+        List<String> quantity = new ArrayList();
+        HashMap<String, List<String>> returnMap = new HashMap<>();
+        Statement statement = sqlController.sqlController().createStatement();
         ResultSet myRs = statement.executeQuery("SELECT * FROM test_table");
         while(myRs.next()){
             System.out.println(myRs.getInt("id")+ " " + myRs.getString("text") + " " + myRs.getInt("more_id"));
-            test.add(myRs.getString("text"));
+            id.add(String.valueOf(myRs.getInt("id")));
+            text.add(myRs.getString("text"));
+            more_id.add(String.valueOf(myRs.getInt("more_id")));
+            quantity.add(String.valueOf(myRs.getInt("quantity")));
+            returnMap.put("id", id);
+            returnMap.put("text", text);
+            returnMap.put("more_id", more_id);
+            returnMap.put("quantity", quantity);
         }
 
-        return test;
+        return returnMap;
     }
 
     @RequestMapping("/testpost")
     public void post(@RequestBody Customer customer) throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:mysql://database-1.coaeroq78uw6.eu-central-1.rds.amazonaws.com/test_schema","admin", "mjaso3000");
-        PreparedStatement post = conn.prepareStatement("INSERT INTO test_table(id) VALUES('"+customer.getId()+"')");
+        PreparedStatement post = sqlController.sqlController().prepareStatement("INSERT INTO test_table(id) VALUES('"+customer.getId()+"')");
         post.executeUpdate();
     }
 
-    //TODO communication with web and other shait
+    @RequestMapping("/addGoods")
+    public void addGoods(@RequestBody Goods goods) throws SQLException{ //takes "id", "goodsName", "price", "quantity"
+        PreparedStatement post = sqlController.sqlController().prepareStatement("INSERT INTO list_of_goods(id, goods_name, price, quantity) VALUES('"+goods.getId()+"', '"+goods.getGoodsName()+"','"+goods.getPrice()+"','"+goods.getQuantity()+"')");
+        post.executeUpdate();
+    }
+
+    @RequestMapping("/increaseGoods")
+    public void increaseGoods(@RequestBody Goods goods) throws SQLException { //takes "id" and "quantity". Adds input quantity to already existing one
+        changeGoodsQuantity.increaseQuantity(goods.getId(), goods.getQuantity());
+       // changeGoodsQuantity.alterQuantity(changeGoodsQuantity.getId(), changeGoodsQuantity.getQuantity());
+    }
+
+    @RequestMapping("/decreaseGoods")
+    public void decreaseGoods(@RequestBody Goods goods) throws SQLException { //takes "id" and "quantity". Substracts input quantity from already existing one
+        changeGoodsQuantity.decreaseQuantity(goods.getId(), goods.getQuantity());
+        // changeGoodsQuantity.alterQuantity(changeGoodsQuantity.getId(), changeGoodsQuantity.getQuantity());
+    }
+
 
 }
