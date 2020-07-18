@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class NewCategory {
+public class ManageCategories {
 
     @Autowired
     SQLController sqlController;
 
     public String createNewCategory(String categoryName) throws SQLException {
-
         Statement statement = sqlController.sqlController().createStatement();
         ResultSet myRs = statement.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = 'test_schema'");
 
@@ -34,6 +33,25 @@ public class NewCategory {
             PreparedStatement post = sqlController.sqlController().prepareStatement("CREATE TABLE "+categoryName+" (id INT, goods_name TEXT, price FLOAT, quantity INT, tags TEXT);");
             post.executeUpdate();
             return "New category " + categoryName + " has been created";
+        }
+    }
+
+    public String deleteCategory(String categoryName) throws SQLException{
+        Statement statement = sqlController.sqlController().createStatement();
+        ResultSet myRs = statement.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = 'test_schema'");
+
+        List<String> existingCategories = new ArrayList();
+
+        while(myRs.next()){
+            existingCategories.add(myRs.getString("TABLE_NAME"));
+        }
+
+        if(existingCategories.contains(categoryName)){
+            PreparedStatement post = sqlController.sqlController().prepareStatement("DROP TABLE "+categoryName+";");
+            post.executeUpdate();
+            return "Category has been deleted";
+        }else{
+            return "Table " + categoryName + " doesn't exist";
         }
     }
 }

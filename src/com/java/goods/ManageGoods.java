@@ -1,7 +1,6 @@
 package com.java.goods;
 
 import com.java.controller.SQLController;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +12,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 @Component
-public class AddGoods {
+public class ManageGoods {
 
     @Autowired
     SQLController sqlController;
-    @Autowired
-    GoodsParameters goodsParameters;
 
     public String addGoods(String categoryName, int id, String goodsName, double price, int quantity, String[] tags) throws SQLException{
 
@@ -31,7 +27,7 @@ public class AddGoods {
 
         List<Integer> existingIds = new ArrayList();
         boolean status = true;
-        int a = 0;
+
         while(myRs.next()){
             existingIds.add(myRs.getInt("id"));
         }
@@ -51,7 +47,7 @@ public class AddGoods {
             String existingId = String.valueOf(existingItem.getInt("id"));
             String existingGoodsName = existingItem.getString("goods_name");
             String existingQuantity = String.valueOf(existingItem.getInt("quantity"));
-            String existingPrice = String.valueOf(existingItem.getInt("price"));
+            String existingPrice = String.valueOf(existingItem.getDouble("price"));
             String existingTags = existingItem.getString("tags");
             try {
                 JSONObject existingGood = new JSONObject();
@@ -62,10 +58,27 @@ public class AddGoods {
                 existingGood.put("tags", existingTags);
                 return existingGood.toString();
             }catch(JSONException e){
-
             }
-
         }
         return "error";
+    }
+
+    public String deleteGoods(int id, String categoryName) throws SQLException {
+
+        Statement statement = sqlController.sqlController().createStatement();
+        ResultSet myRs = statement.executeQuery("SELECT * FROM "+categoryName+"");
+        List<Integer> existingGoods = new ArrayList();
+
+        while(myRs.next()){
+            existingGoods.add(myRs.getInt("id"));
+        }
+
+        if(existingGoods.contains(id)){
+            PreparedStatement post = sqlController.sqlController().prepareStatement("DELETE FROM "+categoryName+" WHERE id = "+id+";");
+            post.executeUpdate();
+            return "good's been deleted successfully";
+        }else{
+            return "good that you are trying to delete does not exist";
+        }
     }
 }

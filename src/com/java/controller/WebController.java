@@ -1,13 +1,15 @@
 package com.java.controller;
 
 import com.java.Customer.Customer;
+import com.java.cart.CartController;
+import com.java.cart.ManageCart;
 import com.java.goods.*;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,11 +26,17 @@ GoodsParameters goodsParameters;
 @Autowired
 ChangeGoodsQuantity changeGoodsQuantity;
 @Autowired
-AddGoods addGoods;
+ManageGoods manageGoods;
 @Autowired
-NewCategory newCategory;
+ManageCategories manageCategories;
 @Autowired
-DeleteGoods deleteGoods;
+ManageCart manageCart;
+@Autowired
+CartController cartController;
+
+    HashMap<String, String> cart = new HashMap();
+    JSONArray cartArray = new JSONArray();
+    int serialNumber = 1;
 
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
@@ -60,12 +68,12 @@ DeleteGoods deleteGoods;
 
     @RequestMapping("/addGoods")
     public String addGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
-        return addGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());
+        return manageGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());
     }
 
     @RequestMapping("/deleteGoods")
     public String deleteGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException{
-        return deleteGoods.deleteGoods(goodsParameters.getId(), goodsParameters.getCategoryName());
+        return manageGoods.deleteGoods(goodsParameters.getId(), goodsParameters.getCategoryName());
     }
 
     @RequestMapping("/increaseGoods")
@@ -78,11 +86,26 @@ DeleteGoods deleteGoods;
         changeGoodsQuantity.decreaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity());
     }
 
-    @RequestMapping("/createNewCategory")
+    @RequestMapping("/createCategory")
     public String createNewCategory(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "categoryName"
-        return newCategory.createNewCategory(goodsParameters.getCategoryName());
+        return manageCategories.createNewCategory(goodsParameters.getCategoryName());
     }
 
+    @RequestMapping("/deleteCategory")
+    public String deleteCategory(@RequestBody GoodsParameters goodsParameters) throws SQLException{
+        return manageCategories.deleteCategory(goodsParameters.getCategoryName());
+    }
 
+    @RequestMapping("/addToCart")
+    public void addToCart(@RequestBody GoodsParameters goodsParameters) throws SQLException{
+
+        manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId());
+
+    }
+
+    @RequestMapping("/testCart")
+    public String testCart(){
+        return cartController.shoppingCart();
+    }
 
 }
