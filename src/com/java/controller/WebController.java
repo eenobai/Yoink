@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,8 +56,9 @@ ChangeGoodsQuantity changeGoodsQuantity;
     }
 
     @RequestMapping("/addGoods")
-    public void addGoods(@RequestBody Goods goods) throws SQLException{ //takes "id", "goodsName", "price", "quantity"
-        PreparedStatement post = sqlController.sqlController().prepareStatement("INSERT INTO list_of_goods(id, goods_name, price, quantity) VALUES('"+goods.getId()+"', '"+goods.getGoodsName()+"','"+goods.getPrice()+"','"+goods.getQuantity()+"')");
+    public void addGoods(@RequestBody Goods goods) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
+        System.out.println(goods.getTags().toString());
+        PreparedStatement post = sqlController.sqlController().prepareStatement("INSERT INTO "+goods.getCategoryName()+"(id, goods_name, price, quantity, tags) VALUES('"+goods.getId()+"', '"+goods.getGoodsName()+"','"+goods.getPrice()+"','"+goods.getQuantity()+"','"+Arrays.toString(goods.getTags())+"')");
         post.executeUpdate();
     }
 
@@ -70,6 +72,11 @@ ChangeGoodsQuantity changeGoodsQuantity;
     public void decreaseGoods(@RequestBody Goods goods) throws SQLException { //takes "id" and "quantity". Substracts input quantity from already existing one
         changeGoodsQuantity.decreaseQuantity(goods.getId(), goods.getQuantity());
         // changeGoodsQuantity.alterQuantity(changeGoodsQuantity.getId(), changeGoodsQuantity.getQuantity());
+    }
+
+    @RequestMapping("/createNewCategory")
+    public void createNewCategory(){
+
     }
 
 
