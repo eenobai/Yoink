@@ -3,7 +3,7 @@ package com.java.goods;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Goods {
+public class GoodsParameters {
 
     private String categoryName;
     private int id;

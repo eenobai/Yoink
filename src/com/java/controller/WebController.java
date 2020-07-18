@@ -1,8 +1,9 @@
 package com.java.controller;
 
 import com.java.Customer.Customer;
+import com.java.goods.AddGoods;
 import com.java.goods.ChangeGoodsQuantity;
-import com.java.goods.Goods;
+import com.java.goods.GoodsParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,11 @@ Customer customer;
 @Autowired
 SQLController sqlController;
 @Autowired
-Goods goods;
+GoodsParameters goodsParameters;
 @Autowired
 ChangeGoodsQuantity changeGoodsQuantity;
+@Autowired
+AddGoods addGoods;
 
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
@@ -51,27 +54,21 @@ ChangeGoodsQuantity changeGoodsQuantity;
 
     @RequestMapping("/testpost")
     public void post(@RequestBody Customer customer) throws SQLException {
-        PreparedStatement post = sqlController.sqlController().prepareStatement("INSERT INTO test_table(id) VALUES('"+customer.getId()+"')");
-        post.executeUpdate();
     }
 
     @RequestMapping("/addGoods")
-    public void addGoods(@RequestBody Goods goods) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
-        System.out.println(goods.getTags().toString());
-        PreparedStatement post = sqlController.sqlController().prepareStatement("INSERT INTO "+goods.getCategoryName()+"(id, goods_name, price, quantity, tags) VALUES('"+goods.getId()+"', '"+goods.getGoodsName()+"','"+goods.getPrice()+"','"+goods.getQuantity()+"','"+Arrays.toString(goods.getTags())+"')");
-        post.executeUpdate();
+    public String addGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
+        return addGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());
     }
 
     @RequestMapping("/increaseGoods")
-    public void increaseGoods(@RequestBody Goods goods) throws SQLException { //takes "id" and "quantity". Adds input quantity to already existing one
-        changeGoodsQuantity.increaseQuantity(goods.getId(), goods.getQuantity());
-       // changeGoodsQuantity.alterQuantity(changeGoodsQuantity.getId(), changeGoodsQuantity.getQuantity());
+    public void increaseGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "id" and "quantity". Adds input quantity to already existing one
+        changeGoodsQuantity.increaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity());
     }
 
     @RequestMapping("/decreaseGoods")
-    public void decreaseGoods(@RequestBody Goods goods) throws SQLException { //takes "id" and "quantity". Substracts input quantity from already existing one
-        changeGoodsQuantity.decreaseQuantity(goods.getId(), goods.getQuantity());
-        // changeGoodsQuantity.alterQuantity(changeGoodsQuantity.getId(), changeGoodsQuantity.getQuantity());
+    public void decreaseGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "id" and "quantity". Substracts input quantity from already existing one
+        changeGoodsQuantity.decreaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity());
     }
 
     @RequestMapping("/createNewCategory")
