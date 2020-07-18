@@ -1,10 +1,7 @@
 package com.java.controller;
 
 import com.java.Customer.Customer;
-import com.java.goods.AddGoods;
-import com.java.goods.ChangeGoodsQuantity;
-import com.java.goods.GoodsParameters;
-import com.java.goods.NewCategory;
+import com.java.goods.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +27,8 @@ ChangeGoodsQuantity changeGoodsQuantity;
 AddGoods addGoods;
 @Autowired
 NewCategory newCategory;
+@Autowired
+DeleteGoods deleteGoods;
 
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
@@ -64,6 +63,11 @@ NewCategory newCategory;
         return addGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());
     }
 
+    @RequestMapping("/deleteGoods")
+    public String deleteGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException{
+        return deleteGoods.deleteGoods(goodsParameters.getId(), goodsParameters.getCategoryName());
+    }
+
     @RequestMapping("/increaseGoods")
     public void increaseGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "id" and "quantity". Adds input quantity to already existing one
         changeGoodsQuantity.increaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity());
@@ -78,6 +82,7 @@ NewCategory newCategory;
     public String createNewCategory(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "categoryName"
         return newCategory.createNewCategory(goodsParameters.getCategoryName());
     }
+
 
 
 }
