@@ -4,6 +4,7 @@ import com.java.Customer.Customer;
 import com.java.goods.AddGoods;
 import com.java.goods.ChangeGoodsQuantity;
 import com.java.goods.GoodsParameters;
+import com.java.goods.NewCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,8 @@ GoodsParameters goodsParameters;
 ChangeGoodsQuantity changeGoodsQuantity;
 @Autowired
 AddGoods addGoods;
+@Autowired
+NewCategory newCategory;
 
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
@@ -72,8 +75,8 @@ AddGoods addGoods;
     }
 
     @RequestMapping("/createNewCategory")
-    public void createNewCategory(){
-
+    public String createNewCategory(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "categoryName"
+        return newCategory.createNewCategory(goodsParameters.getCategoryName());
     }
 
 

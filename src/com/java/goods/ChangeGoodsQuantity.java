@@ -35,6 +35,4 @@ public class ChangeGoodsQuantity {
         post.executeUpdate();
         System.out.println(newQuantity + " decrease");
     }
-
-
 }

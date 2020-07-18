@@ -1,19 +1,39 @@
 package com.java.goods;
 
 import com.java.controller.SQLController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class NewCategory {
+
+    @Autowired
     SQLController sqlController;
 
-    public void createNewCategory(String categoryName) throws SQLException {
-        PreparedStatement post = sqlController.sqlController().prepareStatement("CREATE TABLE "+categoryName+" (id INT, goods_name, price, quantity, tags);");
-        post.executeUpdate();
+    public String createNewCategory(String categoryName) throws SQLException {
+
+        Statement statement = sqlController.sqlController().createStatement();
+        ResultSet myRs = statement.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = 'test_schema'");
+
+        List<String> existingCategories = new ArrayList();
+
+        while(myRs.next()){
+            existingCategories.add(myRs.getString("TABLE_NAME"));
+       }
+
+        if(existingCategories.contains(categoryName)){
+            return "category exists already";
+        }else{
+            PreparedStatement post = sqlController.sqlController().prepareStatement("CREATE TABLE "+categoryName+" (id INT, goods_name TEXT, price FLOAT, quantity INT, tags TEXT);");
+            post.executeUpdate();
+            return "New category " + categoryName + " has been created";
+        }
     }
 }
