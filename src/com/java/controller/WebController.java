@@ -34,9 +34,9 @@ ManageCart manageCart;
 @Autowired
 CartController cartController;
 
-    HashMap<String, String> cart = new HashMap();
-    JSONArray cartArray = new JSONArray();
-    int serialNumber = 1;
+    //HashMap<String, String> cart = new HashMap();
+    //JSONArray cartArray = new JSONArray();
+    //int serialNumber = 1;
 
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
@@ -96,16 +96,20 @@ CartController cartController;
         return manageCategories.deleteCategory(goodsParameters.getCategoryName());
     }
 
-    @RequestMapping("/addToCart")
-    public void addToCart(@RequestBody GoodsParameters goodsParameters) throws SQLException{
-
-        manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId());
+    @RequestMapping("/{userId}/addToCart")
+    public void addToCart(@RequestBody GoodsParameters goodsParameters, @PathVariable("userId") int userId) throws SQLException{
+        //cartController.check(cartController.cart);
+        //cartController.cartsCollection.put(cartController.cartId, cartController.cart)
+        //cartController.createUniqueCart();
+        //cartController.check(cartController.cart).put(userId, cartController.cart);
+        cartController.cartsCollection.put(userId, manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId()));
 
     }
 
-    @RequestMapping("/testCart")
-    public String testCart(){
-        return cartController.shoppingCart();
+    @RequestMapping("/{userId}/testCart")
+    public String testCart(@PathVariable("userId") int userId){
+        System.out.println(userId);
+        return cartController.shoppingCart(userId);
     }
 
 }

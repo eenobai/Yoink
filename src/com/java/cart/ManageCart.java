@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 @Component
 public class ManageCart {
@@ -31,7 +32,6 @@ public class ManageCart {
         String price = String.valueOf(selectedItem.getDouble("price"));
         String tags = selectedItem.getString("tags");
         try {
-            JSONArray cartArray = new JSONArray();
             JSONObject selectedGood = new JSONObject();
             selectedGood.put("id", itemId);
             selectedGood.put("goods_name", goodsName);
@@ -43,6 +43,6 @@ public class ManageCart {
             return selectedGood.toString();
         }catch(JSONException e){
         }
-        return "error";
+        return "addToCart() error";
     }
 }

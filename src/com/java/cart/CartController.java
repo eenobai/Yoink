@@ -11,11 +11,36 @@ import java.util.HashMap;
 @Component
 public class CartController {
 
-    HashMap<Integer, JSONObject> cart = new HashMap();
+    public HashMap<Integer, JSONObject> cart = new HashMap();
+    public HashMap<Integer, String> cartsCollection = new HashMap<>();
     int serialNum = 1;
+    //public int cartId = 1;
 
-    public String shoppingCart(){
-        return cart.toString();
+    //public int createUniqueCart(){
+        //int cartId = 1;
+        //while(cartsCollection.containsKey(cartId)){
+         //   cartId++;
+        //}
+        //cartsCollection.put(cartId, cart);
+        //return cartId;
+    //}
+
+    //public void checkIfEmpty(){
+    //    if(cartsCollection.containsKey(createUniqueCart()) && cartsCollection.get(createUniqueCart()).isEmpty()){
+//
+     //   }
+   // }
+
+    public HashMap<Integer, JSONObject> createUniqueCart(){
+
+        HashMap<Integer, JSONObject> name = new HashMap();
+        return name;
+    }
+
+
+    public String shoppingCart(int cartId){
+
+        return cartsCollection.toString();
     }
 
 }
