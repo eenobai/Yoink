@@ -1,6 +1,7 @@
 package com.java.cart;
 
 import com.java.controller.SQLController;
+import com.java.controller.WebController;
 import com.java.goods.GoodsParameters;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +21,8 @@ public class ManageCart {
     CartController cartController;
     @Autowired
     SQLController sqlController;
+    @Autowired
+    WebController webController;
 
     public String addToCart(String categoryName, int id) throws SQLException {
         Statement statement = sqlController.sqlController().createStatement();
@@ -43,6 +46,7 @@ public class ManageCart {
             return selectedGood.toString();
         }catch(JSONException e){
         }
+
         return "addToCart() error";
     }
 }

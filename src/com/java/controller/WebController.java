@@ -4,14 +4,21 @@ import com.java.Customer.Customer;
 import com.java.cart.CartController;
 import com.java.cart.ManageCart;
 import com.java.goods.*;
+import org.apache.catalina.filters.ExpiresFilter;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 
 @RestController
@@ -33,10 +40,14 @@ ManageCategories manageCategories;
 ManageCart manageCart;
 @Autowired
 CartController cartController;
+@Autowired
+CookieController cookieController;
 
     //HashMap<String, String> cart = new HashMap();
     //JSONArray cartArray = new JSONArray();
     //int serialNumber = 1;
+    int cockie = 0;
+
 
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
@@ -66,6 +77,19 @@ CartController cartController;
     public void post(@RequestBody Customer customer) throws SQLException {
     }
 
+    @RequestMapping("/asd")
+    public String readCookie(@CookieValue(value = "username", defaultValue = "Atta") String username) {
+        return "Hey! My username is " + username;
+    }
+    @RequestMapping("/a")
+    public void getCookie(@CookieValue("myCookie") String fooCookie){
+       System.out.println(fooCookie);
+    }
+    @RequestMapping("/")
+    public String setCookie(HttpServletResponse servRes, HttpServletRequest servReq){
+        cookieController.cookieController(servRes, servReq);
+        return "does the cookie work?";
+}
     @RequestMapping("/addGoods")
     public String addGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
         return manageGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());
@@ -97,17 +121,15 @@ CartController cartController;
     }
 
     @RequestMapping("/{userId}/addToCart")
-    public void addToCart(@RequestBody GoodsParameters goodsParameters, @PathVariable("userId") int userId) throws SQLException{
-        //cartController.check(cartController.cart);
-        //cartController.cartsCollection.put(cartController.cartId, cartController.cart)
-        //cartController.createUniqueCart();
-        //cartController.check(cartController.cart).put(userId, cartController.cart);
+    public void addToCart(@RequestBody GoodsParameters goodsParameters, @PathVariable("userId") int userId, HttpServletResponse servRes, HttpServletRequest servReq) throws SQLException{
+        cookieController.cookieController(servRes, servReq);
         cartController.cartsCollection.put(userId, manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId()));
 
     }
 
     @RequestMapping("/{userId}/testCart")
-    public String testCart(@PathVariable("userId") int userId){
+    public String testCart(@PathVariable("userId") int userId, HttpServletResponse servRes, HttpServletRequest servReq){
+        cookieController.cookieController(servRes, servReq);
         System.out.println(userId);
         return cartController.shoppingCart(userId);
     }

@@ -6,10 +6,14 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class CartController {
+
+    public List<Integer> userIds = new ArrayList();
 
     public HashMap<Integer, JSONObject> cart = new HashMap();
     public HashMap<Integer, String> cartsCollection = new HashMap<>();
@@ -32,12 +36,6 @@ public class CartController {
 //
      //   }
    // }
-
-    public HashMap<Integer, JSONObject> createUniqueCart(){
-
-        HashMap<Integer, JSONObject> name = new HashMap();
-        return name;
-    }
 
 
     public String shoppingCart(int cartId){
