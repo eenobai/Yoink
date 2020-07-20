@@ -16,6 +16,8 @@ public class CartController {
     int serialNum = 1;
     //public int cartId = 1;
 
+    //TODO make it so each new shopping cart creates a new SQL table
+
     //public int createUniqueCart(){
         //int cartId = 1;
         //while(cartsCollection.containsKey(cartId)){
