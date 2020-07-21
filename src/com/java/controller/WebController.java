@@ -85,6 +85,7 @@ CookieController cookieController;
     public void getCookie(@CookieValue("myCookie") String fooCookie){
        System.out.println(fooCookie);
     }
+
     @RequestMapping("/")
     public String setCookie(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
@@ -120,18 +121,21 @@ CookieController cookieController;
         return manageCategories.deleteCategory(goodsParameters.getCategoryName());
     }
 
-    @RequestMapping("/{userId}/addToCart")
-    public void addToCart(@RequestBody GoodsParameters goodsParameters, @PathVariable("userId") int userId, HttpServletResponse servRes, HttpServletRequest servReq) throws SQLException{
+    @RequestMapping("/addToCart")
+    public void addToCart(@RequestBody GoodsParameters goodsParameters, HttpServletResponse servRes, HttpServletRequest servReq) throws SQLException{
+
         cookieController.cookieController(servRes, servReq);
-        cartController.cartsCollection.put(userId, manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId()));
+        System.out.println(cartController.carts.get(cookieController.getCookie(servReq)));
+        cartController.carts.put(cookieController.getCookie(servReq), manageCart.addToCart(goodsParameters.getId(), servReq));
+        //cartController.cartsCollection.put(userId, manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId()));
+        System.out.println("hashmap request "+cartController.carts.get(cookieController.getCookie(servReq)));
 
     }
 
-    @RequestMapping("/{userId}/testCart")
-    public String testCart(@PathVariable("userId") int userId, HttpServletResponse servRes, HttpServletRequest servReq){
+    @RequestMapping("/testCart")
+    public ArrayList testCart(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
-        System.out.println(userId);
-        return cartController.shoppingCart(userId);
+        return cartController.shoppingCart(servReq);
     }
 
 }

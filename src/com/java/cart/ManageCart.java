@@ -9,9 +9,12 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Component
@@ -24,29 +27,33 @@ public class ManageCart {
     @Autowired
     WebController webController;
 
-    public String addToCart(String categoryName, int id) throws SQLException {
-        Statement statement = sqlController.sqlController().createStatement();
-        ResultSet selectedItem = statement.executeQuery("SELECT * FROM "+categoryName+" WHERE id = "+id+";");
-        selectedItem.next();
+    public ArrayList addToCart(int id, HttpServletRequest request) throws SQLException {
+        //Statement statement = sqlController.sqlController().createStatement();
+        //ResultSet selectedItem = statement.executeQuery("SELECT * FROM "+categoryName+" WHERE id = "+id+";");
+        //selectedItem.next();
 
-        String itemId = String.valueOf(selectedItem.getInt("id"));
-        String goodsName = selectedItem.getString("goods_name");
-        String quantity = String.valueOf(selectedItem.getInt("quantity"));
-        String price = String.valueOf(selectedItem.getDouble("price"));
-        String tags = selectedItem.getString("tags");
-        try {
-            JSONObject selectedGood = new JSONObject();
-            selectedGood.put("id", itemId);
-            selectedGood.put("goods_name", goodsName);
-            selectedGood.put("quantity", quantity);
-            selectedGood.put("price", price);
-            selectedGood.put("tags", tags);
-            cartController.cart.put(cartController.serialNum, selectedGood);
-            cartController.serialNum++;
-            return selectedGood.toString();
-        }catch(JSONException e){
+        String cookieVal = " ";
+
+        //String itemId = String.valueOf(selectedItem.getInt("id"));
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("myCookie")) {
+                    cookieVal = cookie.getValue();
+                }
+            }
         }
 
-        return "addToCart() error";
+        System.out.println("cookie val " + cookieVal);
+            //JSONObject selectedGood = new JSONObject();
+            //selectedGood.put("id", itemId);
+            int selectedGoodStr = id;
+        System.out.println("id " + id);
+        ArrayList itemsInCart = cartController.carts.get("1B1D81NUMI0H5L0S8P");
+        System.out.println("ids before add " + itemsInCart);
+        itemsInCart.add(id);
+        System.out.println("ids after add " + itemsInCart);
+        cartController.carts.put(cookieVal, itemsInCart);
+        return itemsInCart;
     }
 }
