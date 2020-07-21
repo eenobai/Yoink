@@ -7,6 +7,7 @@ import org.thymeleaf.util.ArrayUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Random;
 
 @Component
 public class CookieController {
@@ -40,7 +41,16 @@ public class CookieController {
             //response.addCookie(newCookie);
             //System.out.println("catch// cookie's been created from nullpoint");
         }catch(IllegalArgumentException e){
-            response.addCookie(newCookie);
+            String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder rndS = new StringBuilder();
+            Random rnd = new Random();
+            while (rndS.length() < 18) { // length of the random string.
+                int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+                rndS.append(SALTCHARS.charAt(index));
+            }
+            String rndStr = rndS.toString();
+            Cookie randomCookie = new Cookie("myCookie", rndStr);
+            response.addCookie(randomCookie);
             System.out.println("catch// cookie's been created from argument exception");
         }
     }
