@@ -21,7 +21,7 @@ public class CartController {
 
     public List<Integer> userIds = new ArrayList();
 
-    public HashMap<String, ArrayList> carts = new HashMap();
+    public HashMap<String, HashMap<String, ArrayList<Integer>>> carts = new HashMap();
     //public HashMap<Integer, String> cartsCollection = new HashMap<>();
     int serialNum = 1;
     //public int cartId = 1;
@@ -48,16 +48,21 @@ public class CartController {
     public void cartMaker(HttpServletRequest request){
         System.out.println("cookie val from carMaker " + cookieController.getCookie(request));
         if(carts.get(cookieController.getCookie(request))== null){
-            ArrayList<Integer> tempList = new ArrayList();
-            tempList.add(123);
-            System.out.println("temp list from cart maker " + tempList.toString());
-            carts.put(cookieController.getCookie(request), tempList);
+            HashMap<String, ArrayList<Integer>> tempMap = new HashMap();
+            ArrayList <Integer> blankListId = new ArrayList();
+            blankListId.add(0);
+            ArrayList <Integer> blankListQuantity = new ArrayList();
+            blankListQuantity.add(0);
+            tempMap.put("item_ids", blankListId);
+            tempMap.put("item_quantity", blankListQuantity);
+            System.out.println("temp map from cart maker " + tempMap.toString());
+            carts.put(cookieController.getCookie(request), tempMap);
         }else{
             System.out.println("cart already exists");
         }
     }
 
-    public ArrayList shoppingCart(HttpServletRequest request){
+    public HashMap<String, ArrayList<Integer>> shoppingCart(HttpServletRequest request){
 
         return carts.get(cookieController.getCookie(request));
     }

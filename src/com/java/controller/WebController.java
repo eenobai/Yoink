@@ -126,14 +126,14 @@ CookieController cookieController;
 
         cookieController.cookieController(servRes, servReq);
         System.out.println(cartController.carts.get(cookieController.getCookie(servReq)));
-        cartController.carts.put(cookieController.getCookie(servReq), manageCart.addToCart(goodsParameters.getId(), servReq));
+        cartController.carts.put(cookieController.getCookie(servReq), manageCart.addToCart(goodsParameters.getId(), goodsParameters.getQuantity(), servReq));
         //cartController.cartsCollection.put(userId, manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId()));
         System.out.println("hashmap request "+cartController.carts.get(cookieController.getCookie(servReq)));
 
     }
 
     @RequestMapping("/testCart")
-    public ArrayList testCart(HttpServletResponse servRes, HttpServletRequest servReq){
+    public HashMap<String, ArrayList<Integer>> testCart(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
         return cartController.shoppingCart(servReq);
     }

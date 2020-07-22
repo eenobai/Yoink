@@ -1,5 +1,6 @@
 package com.java.cart;
 
+import com.java.controller.CookieController;
 import com.java.controller.SQLController;
 import com.java.controller.WebController;
 import com.java.goods.GoodsParameters;
@@ -26,8 +27,10 @@ public class ManageCart {
     SQLController sqlController;
     @Autowired
     WebController webController;
+    @Autowired
+    CookieController cookieController;
 
-    public ArrayList addToCart(int id, HttpServletRequest request) throws SQLException {
+    public HashMap<String, ArrayList<Integer>> addToCart(int id, int quantity, HttpServletRequest request) throws SQLException {
         //Statement statement = sqlController.sqlController().createStatement();
         //ResultSet selectedItem = statement.executeQuery("SELECT * FROM "+categoryName+" WHERE id = "+id+";");
         //selectedItem.next();
@@ -45,15 +48,30 @@ public class ManageCart {
         }
 
         System.out.println("cookie val " + cookieVal);
-            //JSONObject selectedGood = new JSONObject();
-            //selectedGood.put("id", itemId);
-            int selectedGoodStr = id;
         System.out.println("id " + id);
-        ArrayList itemsInCart = cartController.carts.get("1B1D81NUMI0H5L0S8P");
-        System.out.println("ids before add " + itemsInCart);
-        itemsInCart.add(id);
-        System.out.println("ids after add " + itemsInCart);
+        System.out.println("quantity " + quantity);
+        HashMap<String, ArrayList<Integer>> itemsInCart = new HashMap();
+        itemsInCart = cartController.carts.get(cookieVal);
+
+        System.out.println("cookie cart from carts map " + cartController.carts.get(cookieVal));
+
+
+        ArrayList <Integer> itemIds = itemsInCart.get("item_ids");
+        ArrayList <Integer> itemQuantity = itemsInCart.get("item_quantity");
+
+        itemIds.add(id);
+        System.out.println("item Quantity before adding " + itemQuantity);
+        itemQuantity.add(quantity);
+
+        itemsInCart.put("item_ids", itemIds);
+        itemsInCart.put("item_quantity", itemQuantity);
+
         cartController.carts.put(cookieVal, itemsInCart);
+
+        System.out.println("items in cart " + itemsInCart.toString());
+
+        cartController.carts.put(cookieVal, itemsInCart);
+
         return itemsInCart;
     }
 }
