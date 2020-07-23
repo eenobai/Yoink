@@ -69,12 +69,12 @@ public class CookieController {
             //response.addCookie(newCookie);
             //System.out.println("catch// cookie's been created from nullpoint");
         }catch(IllegalArgumentException e){
-            String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             StringBuilder rndS = new StringBuilder();
             Random rnd = new Random();
             while (rndS.length() < 18) { // length of the random string.
-                int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-                rndS.append(SALTCHARS.charAt(index));
+                int index = (int) (rnd.nextFloat() * chars.length());
+                rndS.append(chars.charAt(index));
             }
             rndCookie = rndS.toString();
             Cookie randomCookie = new Cookie("myCookie", rndCookie);

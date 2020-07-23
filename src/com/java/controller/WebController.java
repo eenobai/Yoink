@@ -7,12 +7,16 @@ import com.java.goods.*;
 import org.apache.catalina.filters.ExpiresFilter;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.ArrayList;
@@ -136,6 +140,21 @@ CookieController cookieController;
     public HashMap<String, ArrayList<Integer>> testCart(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
         return cartController.shoppingCart(servReq);
+    }
+
+
+    @GetMapping("/index.html")
+    public void showPage(Model model, HttpServletRequest request) {
+        model.addAttribute("someBean"); //assume SomeBean has a property called datePlanted
+        if (request.getParameter("button1") != null) {
+            System.out.println("button 1 click");
+        } else if (request.getParameter("button2") != null) {
+            System.out.println("button 2 click");
+        } else if (request.getParameter("button3") != null) {
+            System.out.println("button 3 click");
+        } else {
+            System.out.println("else got triggered");
+        }
     }
 
 }
