@@ -107,12 +107,12 @@ CookieController cookieController;
 
     @RequestMapping("/increaseGoods")
     public void increaseGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "id" and "quantity". Adds input quantity to already existing one
-        changeGoodsQuantity.increaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity());
+        changeGoodsQuantity.increaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity(), goodsParameters.getCategoryName());
     }
 
     @RequestMapping("/decreaseGoods")
     public void decreaseGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException { //takes "id" and "quantity". Substracts input quantity from already existing one
-        changeGoodsQuantity.decreaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity());
+        changeGoodsQuantity.decreaseQuantity(goodsParameters.getId(), goodsParameters.getQuantity(), goodsParameters.getCategoryName());
     }
 
     @RequestMapping("/createCategory")
@@ -130,7 +130,7 @@ CookieController cookieController;
 
         cookieController.cookieController(servRes, servReq);
         System.out.println(cartController.carts.get(cookieController.getCookie(servReq)));
-        cartController.carts.put(cookieController.getCookie(servReq), manageCart.addToCart(goodsParameters.getId(), goodsParameters.getQuantity(), servReq));
+        cartController.carts.put(cookieController.getCookie(servReq), manageCart.addToCart(goodsParameters.getId(), goodsParameters.getQuantity(), goodsParameters.getCategoryName(), servReq));
         //cartController.cartsCollection.put(userId, manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId()));
         System.out.println("hashmap request "+cartController.carts.get(cookieController.getCookie(servReq)));
 

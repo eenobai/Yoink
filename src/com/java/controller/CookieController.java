@@ -38,7 +38,6 @@ public class CookieController {
         return cookieVal;
     }
 
-
     public void cookieController (HttpServletResponse response, HttpServletRequest request) {
 
         Cookie newCookie = new Cookie("myCookie", "doesThisWork?");

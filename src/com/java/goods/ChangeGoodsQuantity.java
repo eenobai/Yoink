@@ -12,23 +12,15 @@ public class ChangeGoodsQuantity {
     @Autowired
     SQLController sqlController;
 
-    public void increaseQuantity(int id, int moreGoods) throws SQLException {
-        Statement statement = sqlController.sqlController().createStatement();
-        ResultSet myRs = statement.executeQuery("SELECT * FROM list_of_goods WHERE id= '"+id+"';");
-        myRs.next();
-        int newQuantity = myRs.getInt("quantity") + moreGoods;
-        PreparedStatement post = sqlController.sqlController().prepareStatement("UPDATE list_of_goods SET quantity = '"+newQuantity+"' where id = '"+id+"'");
-        post.executeUpdate();
-        System.out.println(newQuantity);
+    public void increaseQuantity(int id, int moreGoods, String category) throws SQLException {
+        int newQuantity = sqlController.getQuantity(id, category) + moreGoods;
+        sqlController.setQuantity(category, newQuantity, id);
+        System.out.println(newQuantity + " increase");
     }
 
-    public void decreaseQuantity(int id, int moreGoods) throws SQLException {
-        Statement statement = sqlController.sqlController().createStatement();
-        ResultSet myRs = statement.executeQuery("SELECT * FROM list_of_goods WHERE id= '"+id+"';");
-        myRs.next();
-        int newQuantity = myRs.getInt("quantity") - moreGoods;
-        PreparedStatement post = sqlController.sqlController().prepareStatement("UPDATE list_of_goods SET quantity = '"+newQuantity+"' where id = '"+id+"'");
-        post.executeUpdate();
+    public void decreaseQuantity(int id, int lessGoods, String category) throws SQLException {
+        int newQuantity = sqlController.getQuantity(id, category) - lessGoods;
+        sqlController.setQuantity(category, newQuantity, id);
         System.out.println(newQuantity + " decrease");
     }
 }

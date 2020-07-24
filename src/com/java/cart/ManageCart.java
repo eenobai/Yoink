@@ -3,6 +3,7 @@ package com.java.cart;
 import com.java.controller.CookieController;
 import com.java.controller.SQLController;
 import com.java.controller.WebController;
+import com.java.goods.ChangeGoodsQuantity;
 import com.java.goods.GoodsParameters;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,8 +31,10 @@ public class ManageCart {
     WebController webController;
     @Autowired
     CookieController cookieController;
+    @Autowired
+    ChangeGoodsQuantity changeGoodsQuantity;
 
-    public HashMap<String, ArrayList<Integer>> addToCart(int id, int quantity, HttpServletRequest request) throws SQLException {
+    public HashMap<String, ArrayList<Integer>> addToCart(int id, int quantity, String category, HttpServletRequest request) throws SQLException {
 
         HashMap<String, ArrayList<Integer>> itemsInCart = cartController.personalCart(request, id, quantity);
 
@@ -48,6 +51,10 @@ public class ManageCart {
             System.out.println("item already exists in the cart"); //test
             System.out.println("#####################################");
             System.out.println("#####################################");
+        }else if(sqlController.getQuantity(id, category)<quantity){
+
+            System.out.println("out of stock, you can get only " + sqlController.getQuantity(id, category) + " items");
+            //need to add some kind of return idk
         }else{
             //adds new id to already existing array of ids
             itemIds.add(id);
@@ -59,11 +66,11 @@ public class ManageCart {
             itemsInCart.put("item_ids", itemIds);
             itemsInCart.put("item_quantity", itemQuantity);
 
+            //changeGoodsQuantity.decreaseQuantity(id, quantity,category);  <<<<---- //TODO this is for the checkout
+
             //puts temporary map into carts map
             cartController.carts.put(cookieVal, itemsInCart);
         }
-
-
 
         System.out.println("items in cart " + itemsInCart.toString()); //test
 

@@ -1,4 +1,4 @@
-package com.java.controller;
+package com.java.fluff;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
