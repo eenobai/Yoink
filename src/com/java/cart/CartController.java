@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -22,26 +23,8 @@ public class CartController {
     public List<Integer> userIds = new ArrayList();
 
     public HashMap<String, HashMap<String, ArrayList<Integer>>> carts = new HashMap();
-    //public HashMap<Integer, String> cartsCollection = new HashMap<>();
+
     int serialNum = 1;
-    //public int cartId = 1;
-
-    //TODO make it so each new shopping cart creates a new SQL table
-
-    //public int createUniqueCart(){
-        //int cartId = 1;
-        //while(cartsCollection.containsKey(cartId)){
-         //   cartId++;
-        //}
-        //cartsCollection.put(cartId, cart);
-        //return cartId;
-    //}
-
-    //public void checkIfEmpty(){
-    //    if(cartsCollection.containsKey(createUniqueCart()) && cartsCollection.get(createUniqueCart()).isEmpty()){
-//
-     //   }
-   // }
 
 
 
@@ -62,6 +45,22 @@ public class CartController {
         }
     }
 
+    public HashMap<String, ArrayList<Integer>> personalCart(HttpServletRequest request, int id, int quantity){
+        String cookieVal = cookieController.getCookie(request);
+
+        System.out.println("cookie val " + cookieVal);
+        System.out.println("id " + id);
+        System.out.println("quantity " + quantity);
+
+        //creates temp hashmap cart that will be stored in carts map later on
+        HashMap<String, ArrayList<Integer>> itemsInCart = new HashMap();
+
+        //get specific cart from carts map
+        itemsInCart = carts.get(cookieVal);
+        return itemsInCart;
+    }
+
+    //TODO idk why I made this
     public HashMap<String, ArrayList<Integer>> shoppingCart(HttpServletRequest request){
 
         return carts.get(cookieController.getCookie(request));

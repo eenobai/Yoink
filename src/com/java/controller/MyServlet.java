@@ -2,10 +2,7 @@ package com.java.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +14,13 @@ import java.io.IOException;
 @Controller
 public class MyServlet extends HttpServlet {
 
-    String button1;
+    //TODO doesn't work
 
-    @RequestMapping("/index.html")
-    public String showPage(Model model, @RequestParam(value = "button1", required = false) String button1, @RequestParam(value = "button1", required = false) String button2, @RequestParam(value = "button1", required = false) String button3, HttpServletRequest request) {
+    @RequestMapping("/index.jsp")
+    public void showPage() {
+        System.out.println("it works?");
+/*
+        System.out.println(button1 + button2 + button3);
 
         if (request.getParameter("button1") != null) {
             System.out.println("button 1 click");
@@ -31,6 +31,7 @@ public class MyServlet extends HttpServlet {
         } else {
             System.out.println("else got triggered");
         }
-        return button1;
+
+ */
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,47 +32,46 @@ public class ManageCart {
     CookieController cookieController;
 
     public HashMap<String, ArrayList<Integer>> addToCart(int id, int quantity, HttpServletRequest request) throws SQLException {
-        //Statement statement = sqlController.sqlController().createStatement();
-        //ResultSet selectedItem = statement.executeQuery("SELECT * FROM "+categoryName+" WHERE id = "+id+";");
-        //selectedItem.next();
 
-        String cookieVal = " ";
+        HashMap<String, ArrayList<Integer>> itemsInCart = cartController.personalCart(request, id, quantity);
 
-        //String itemId = String.valueOf(selectedItem.getInt("id"));
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("myCookie")) {
-                    cookieVal = cookie.getValue();
-                }
-            }
-        }
+        String cookieVal = cookieController.getCookie(request);
 
-        System.out.println("cookie val " + cookieVal);
-        System.out.println("id " + id);
-        System.out.println("quantity " + quantity);
-        HashMap<String, ArrayList<Integer>> itemsInCart = new HashMap();
-        itemsInCart = cartController.carts.get(cookieVal);
-
-        System.out.println("cookie cart from carts map " + cartController.carts.get(cookieVal));
-
-
+        //gets already existing items and their quantity from existing cart
         ArrayList <Integer> itemIds = itemsInCart.get("item_ids");
         ArrayList <Integer> itemQuantity = itemsInCart.get("item_quantity");
 
-        itemIds.add(id);
-        System.out.println("item Quantity before adding " + itemQuantity);
-        itemQuantity.add(quantity);
+        //checks whether the item already exists in the cart
+        if(itemIds.contains(id)){
+            System.out.println("#####################################");
+            System.out.println("#####################################");
+            System.out.println("item already exists in the cart"); //test
+            System.out.println("#####################################");
+            System.out.println("#####################################");
+        }else{
+            //adds new id to already existing array of ids
+            itemIds.add(id);
+            System.out.println("item Quantity before adding " + itemQuantity); //test
+            //adds new quantity to already existing array of quantities
+            itemQuantity.add(quantity);
 
-        itemsInCart.put("item_ids", itemIds);
-        itemsInCart.put("item_quantity", itemQuantity);
+            //puts arrays of ids and quantities back in the map
+            itemsInCart.put("item_ids", itemIds);
+            itemsInCart.put("item_quantity", itemQuantity);
 
-        cartController.carts.put(cookieVal, itemsInCart);
+            //puts temporary map into carts map
+            cartController.carts.put(cookieVal, itemsInCart);
+        }
 
-        System.out.println("items in cart " + itemsInCart.toString());
 
-        cartController.carts.put(cookieVal, itemsInCart);
+
+        System.out.println("items in cart " + itemsInCart.toString()); //test
 
         return itemsInCart;
+    }
+
+    //adjust quantity of the items in cart by 1
+    public void adjustQuantity(HttpServletRequest request, int id, int quantity){
+
     }
 }

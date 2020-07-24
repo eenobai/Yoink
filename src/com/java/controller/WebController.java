@@ -142,19 +142,4 @@ CookieController cookieController;
         return cartController.shoppingCart(servReq);
     }
 
-
-    @GetMapping("/index.html")
-    public void showPage(Model model, HttpServletRequest request) {
-        model.addAttribute("someBean"); //assume SomeBean has a property called datePlanted
-        if (request.getParameter("button1") != null) {
-            System.out.println("button 1 click");
-        } else if (request.getParameter("button2") != null) {
-            System.out.println("button 2 click");
-        } else if (request.getParameter("button3") != null) {
-            System.out.println("button 3 click");
-        } else {
-            System.out.println("else got triggered");
-        }
-    }
-
 }

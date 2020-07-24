@@ -1,6 +1,7 @@
 package com.java.controller;
 
 import com.java.cart.CartController;
+import com.java.fluff.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,26 +17,22 @@ public class CookieController {
 
     @Autowired
     CartController cartController;
+    @Autowired
+    RandomStringGenerator randomStringGenerator;
 
     public String rndCookie;
 
-    private Object NullPointerException;
-
-    //public void getCookie(@CookieValue("myCookie") String fooCookie){
-    //    System.out.println(fooCookie);
-    //}
-
     public String getCookie(HttpServletRequest request){
 
+            //don't ask why
             String cookieVal = "";
-
+            //requests all cookies from the websites and stores them in an array
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (cookie.getName().equals("myCookie")) {
                         cookieVal = cookie.getValue();
                     }
-
                 }
             }
         return cookieVal;
@@ -44,39 +41,31 @@ public class CookieController {
 
     public void cookieController (HttpServletResponse response, HttpServletRequest request) {
 
-
         Cookie newCookie = new Cookie("myCookie", "doesThisWork?");
 
         try {
 
             Cookie cookies[] = request.getCookies();
             System.out.println(ArrayUtils.contains(cookies, newCookie));
-
             for(Cookie cookie :cookies) {
                 System.out.println(cookie.equals(newCookie));
                 //System.out.println(cookie + " retrieved cookie");
                 //System.out.println(newCookie + " newCookie");
                 if (cookie.getName().equals("myCookie")) {
                     System.out.println("try// cookie exists newCookie");
-
                 } else {
                     System.out.println("nullpoint been thrown");
-                    //throw new NullPointerException("cookie doesn't exist");
+                    throw new NullPointerException("cookie doesn't exist");
                 }
             }
             System.out.println("cookie exists");
         }catch(NullPointerException e){
-            //response.addCookie(newCookie);
-            //System.out.println("catch// cookie's been created from nullpoint");
+            rndCookie = randomStringGenerator.randomString(20);
+            Cookie randomCookie = new Cookie("myCookie", rndCookie);
+            response.addCookie(randomCookie);
+            System.out.println("catch// cookie's been created from nullpoint");
         }catch(IllegalArgumentException e){
-            String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            StringBuilder rndS = new StringBuilder();
-            Random rnd = new Random();
-            while (rndS.length() < 18) { // length of the random string.
-                int index = (int) (rnd.nextFloat() * chars.length());
-                rndS.append(chars.charAt(index));
-            }
-            rndCookie = rndS.toString();
+            rndCookie = randomStringGenerator.randomString(20);
             Cookie randomCookie = new Cookie("myCookie", rndCookie);
             response.addCookie(randomCookie);
             System.out.println("catch// cookie's been created from argument exception");
