@@ -3,6 +3,7 @@ package com.java.controller;
 import com.java.Customer.Customer;
 import com.java.cart.CartController;
 import com.java.cart.ManageCart;
+import com.java.fluff.TableOfGoods;
 import com.java.goods.*;
 import org.apache.catalina.filters.ExpiresFilter;
 import org.json.JSONArray;
@@ -20,13 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 
-@Controller
+@RestController
 public class WebController {
 
 @Autowired
@@ -47,6 +49,8 @@ ManageCart manageCart;
 CartController cartController;
 @Autowired
 CookieController cookieController;
+@Autowired
+TableOfGoods tableOfGoods;
 
     //################################################################
     //################################################################
@@ -140,19 +144,22 @@ CookieController cookieController;
 
     @RequestMapping("/addToCart")
     public void addToCart(@RequestBody GoodsParameters goodsParameters, HttpServletResponse servRes, HttpServletRequest servReq) throws SQLException{
-
         cookieController.cookieController(servRes, servReq);
         System.out.println(cartController.carts.get(cookieController.getCookie(servReq)));
         cartController.carts.put(cookieController.getCookie(servReq), manageCart.addToCart(goodsParameters.getId(), goodsParameters.getQuantity(), goodsParameters.getCategoryName(), servReq));
         //cartController.cartsCollection.put(userId, manageCart.addToCart(goodsParameters.getCategoryName(), goodsParameters.getId()));
         System.out.println("hashmap request "+cartController.carts.get(cookieController.getCookie(servReq)));
-
     }
 
     @RequestMapping("/testCart")
     public HashMap<String, ArrayList<Integer>> testCart(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
         return cartController.shoppingCart(servReq);
+    }
+
+    @RequestMapping("/showEverything")
+    public void showEverything() throws SQLException {
+        tableOfGoods.showTable();
     }
 
 }

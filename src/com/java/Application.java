@@ -39,9 +39,9 @@ import java.util.Set;
 @ComponentScan({"com.java.goods"})
 //@PropertySource("C:\\Users\\Ilya\\Desktop\\Yoink\\src\\com\\resources\\application.properties")
 //@EnableJpaRepositories(basePackages = "com.java.Repository")
-    @ServletComponentScan({"com.java.WEB-INF"})
+   // @ServletComponentScan({"com.java.WEB-INF"})
 class Application {
-
+/*
     public void onStartUp(ServletContext servletContext) throws ServletException{
         AnnotationConfigWebApplicationContext webApplicationContext = new AnnotationConfigWebApplicationContext();
         webApplicationContext.register(SpringConfig.class);
@@ -53,7 +53,7 @@ class Application {
         myCustomDispatcherServlet.setLoadOnStartup(1);
         myCustomDispatcherServlet.addMapping("/localhost:8080/");
     }
-
+*/
     public static void main(String[] args){
         ServletContext servletContext = new ServletContext() {
             @Override
