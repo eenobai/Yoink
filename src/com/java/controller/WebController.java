@@ -7,6 +7,7 @@ import com.java.goods.*;
 import org.apache.catalina.filters.ExpiresFilter;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Random;
 
 
-@RestController
+@Controller
 public class WebController {
 
 @Autowired
@@ -47,12 +48,8 @@ CartController cartController;
 @Autowired
 CookieController cookieController;
 
-    //HashMap<String, String> cart = new HashMap();
-    //JSONArray cartArray = new JSONArray();
-    //int serialNumber = 1;
-    int cockie = 0;
-
-
+    //################################################################
+    //################################################################
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
         List<String> id = new ArrayList();
@@ -90,11 +87,27 @@ CookieController cookieController;
        System.out.println(fooCookie);
     }
 
+    @RequestMapping(value = "/managegoods.html", method = RequestMethod.GET)
+    public GoodsParameters testAddGoodsGet() throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
+      GoodsParameters newGood = new GoodsParameters();
+      return newGood;
+    }
+    @RequestMapping(value = "/submitgood.html", method = RequestMethod.POST)
+    public String testAddGoodsPost(@RequestParam("goodsName") String name, @RequestParam("categoryName") String categoryName, @RequestParam("id") int id,
+                                   @RequestParam("price") double price, @RequestParam("quantity") int quantity, @RequestParam("tags") String tags) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
+        //return manageGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());
+        System.out.println(name + categoryName +id + price + quantity + tags);
+        return "kekw?";
+    }
+    //################################################################
+    //################################################################
+
     @RequestMapping("/")
     public String setCookie(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
         return "does the cookie work?";
 }
+
     @RequestMapping("/addGoods")
     public String addGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
         return manageGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());

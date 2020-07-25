@@ -16,7 +16,7 @@ public class MyServlet extends HttpServlet {
 
     //TODO doesn't work
 
-    @RequestMapping("/index.jsp")
+    @RequestMapping("/index.html")
     public void showPage() {
         System.out.println("it works?");
 /*
