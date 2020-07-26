@@ -1,4 +1,4 @@
-package com.java.goods;
+package com.java.model;
 
 import com.java.controller.SQLController;
 import org.json.JSONException;

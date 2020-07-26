@@ -1,4 +1,4 @@
-package com.java.cart;
+package com.java.controller;
 
 import com.java.controller.CookieController;
 import com.java.goods.GoodsParameters;

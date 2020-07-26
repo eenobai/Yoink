@@ -1,16 +1,13 @@
 package com.java.controller;
 
-import com.java.cart.CartController;
 import com.java.fluff.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.thymeleaf.util.ArrayUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Random;
 
 @Component
 public class CookieController {

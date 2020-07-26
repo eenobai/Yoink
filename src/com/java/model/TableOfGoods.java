@@ -1,4 +1,4 @@
-package com.java.fluff;
+package com.java.model;
 
 import com.java.controller.SQLController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,8 @@ public class TableOfGoods {
         Statement statement = sqlController.sqlController().createStatement();
         ResultSet myRs = statement.executeQuery("SELECT * FROM list_of_goods;");
         String leftAlignFormat = "| %-6s | %-16s | %-5s | %-6d | %-31s |%n";
-        System.out.println("Existing items in database");
+        System.out.println("################################################################################");
+        System.out.println("#                       Existing items in database                             #");
         System.out.format("+--------+------------------+-------+--------+---------------------------------+%n");
         System.out.format("+   ID   +     Item Name    + Price +Quantity+             Tags                +%n");
         System.out.format("+--------+------------------+-------+--------+---------------------------------+%n");

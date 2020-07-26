@@ -1,31 +1,21 @@
 package com.java.controller;
 
 import com.java.Customer.Customer;
-import com.java.cart.CartController;
-import com.java.cart.ManageCart;
-import com.java.fluff.TableOfGoods;
+import com.java.model.ManageCart;
+import com.java.model.TableOfGoods;
 import com.java.goods.*;
-import org.apache.catalina.filters.ExpiresFilter;
-import org.json.JSONArray;
+import com.java.model.ChangeGoodsQuantity;
+import com.java.model.ManageCategories;
+import com.java.model.ManageGoods;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.sql.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 
 @RestController

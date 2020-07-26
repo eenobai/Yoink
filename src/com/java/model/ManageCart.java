@@ -1,22 +1,15 @@
-package com.java.cart;
+package com.java.model;
 
+import com.java.controller.CartController;
 import com.java.controller.CookieController;
 import com.java.controller.SQLController;
 import com.java.controller.WebController;
-import com.java.goods.ChangeGoodsQuantity;
-import com.java.goods.GoodsParameters;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.java.model.ChangeGoodsQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Array;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
