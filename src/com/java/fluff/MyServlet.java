@@ -12,26 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-public class MyServlet extends HttpServlet {
+public class MyServlet {
 
     //TODO doesn't work
 
-    @RequestMapping("/index.html")
-    public void showPage() {
+    @RequestMapping("/hello")
+    public String redirect() {
         System.out.println("it works?");
-/*
-        System.out.println(button1 + button2 + button3);
-
-        if (request.getParameter("button1") != null) {
-            System.out.println("button 1 click");
-        } else if (request.getParameter("button2") != null) {
-            System.out.println("button 2 click");
-        } else if (request.getParameter("button3") != null) {
-            System.out.println("button 3 click");
-        } else {
-            System.out.println("else got triggered");
-        }
-
- */
+        return "viewpage";
     }
+
+    @RequestMapping("/helloagain")
+    public String display(){
+        return "final";
+    }
+
 }
