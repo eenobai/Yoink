@@ -30,7 +30,8 @@ public class SortAWS {
 
             Statement statement = sqlController.sqlController().createStatement();
             ResultSet myRs = statement.executeQuery("SELECT * FROM "+category+" ORDER BY "+sortBy+";");
-            myRs.next();
+
+
             while(myRs.next()){
                 ids.add(myRs.getInt("id"));
                 goodsNames.add(myRs.getString("goods_name"));
@@ -38,19 +39,20 @@ public class SortAWS {
                 quantity.add(myRs.getInt("quantity"));
                 tags.add(myRs.getString("tags"));
             }
+            System.out.println(ids.toString());
+            System.out.println(goodsNames.toString());
+            System.out.println(price.toString());
+            System.out.println(quantity.toString());
+            System.out.println(tags.toString());
 
+
+            /*
             while(i<ids.size()){
                 PreparedStatement post = sqlController.sqlController().prepareStatement("INSERT INTO "+category+" VALUES ("+ids.get(i)+", "+goodsNames.get(i)+", "+price.get(i)+", "+quantity.get(i)+", "+tags.get(i)+")");
                 post.executeUpdate();
                 i++;
             }
-
-        } else if (sortBy.equals("goods_name")) {
-
-        } else if (sortBy.equals("price")) {
-
-        } else if (sortBy.equals("quantity")) {
-
+*/
         }
 
     }

@@ -11,6 +11,15 @@ public class GoodsParameters {
     private double price;
     private int quantity;
     private String[] tags;
+    private String sortBy;
+
+    public String getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
 
     public int getId() {
         return id;

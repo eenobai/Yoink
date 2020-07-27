@@ -72,7 +72,7 @@ public class WebController {
     }
 
     @RequestMapping("/testpost")
-    public void post(@RequestBody Customer customer) throws SQLException {
+    public void post(@RequestBody Customer customer){
     }
 
     @RequestMapping("/asd")
@@ -85,21 +85,16 @@ public class WebController {
     }
 
     @RequestMapping(value = "/managegoods.html", method = RequestMethod.GET)
-    public GoodsParameters testAddGoodsGet() throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
+    public GoodsParameters testAddGoodsGet(){ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
         GoodsParameters newGood = new GoodsParameters();
         return newGood;
     }
     @RequestMapping(value = "/submitgood.html", method = RequestMethod.POST)
     public String testAddGoodsPost(@RequestParam("goodsName") String name, @RequestParam("categoryName") String categoryName, @RequestParam("id") int id,
-                                   @RequestParam("price") double price, @RequestParam("quantity") int quantity, @RequestParam("tags") String tags) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
+                                   @RequestParam("price") double price, @RequestParam("quantity") int quantity, @RequestParam("tags") String tags){ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
         //return manageGoods.addGoods(goodsParameters.getCategoryName(), goodsParameters.getId(), goodsParameters.getGoodsName(), goodsParameters.getPrice(),goodsParameters.getQuantity(),goodsParameters.getTags());
         System.out.println(name + categoryName +id + price + quantity + tags);
         return "kekw?";
-    }
-
-    @RequestMapping("/testSort")
-    public void testSort() throws SQLException {
-        sortAWS.sort("list_of_goods", "id");
     }
 
     //################################################################
@@ -157,8 +152,9 @@ public class WebController {
     }
 
     @RequestMapping("/showEverything")
-    public void showEverything() throws SQLException {
-        tableOfGoods.showTable();
+    public void showEverything(@RequestBody GoodsParameters goodsParameters) throws SQLException {
+        System.out.println(goodsParameters.getSortBy());
+        tableOfGoods.showTable(goodsParameters.getCategoryName(), goodsParameters.getSortBy());
     }
 
 }
