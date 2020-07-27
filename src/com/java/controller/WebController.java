@@ -1,6 +1,7 @@
 package com.java.controller;
 
 import com.java.Customer.Customer;
+import com.java.fluff.SortAWS;
 import com.java.model.ManageCart;
 import com.java.model.TableOfGoods;
 import com.java.goods.*;
@@ -21,26 +22,28 @@ import java.util.List;
 @RestController
 public class WebController {
 
-@Autowired
-Customer customer;
-@Autowired
-SQLController sqlController;
-@Autowired
-GoodsParameters goodsParameters;
-@Autowired
-ChangeGoodsQuantity changeGoodsQuantity;
-@Autowired
-ManageGoods manageGoods;
-@Autowired
-ManageCategories manageCategories;
-@Autowired
-ManageCart manageCart;
-@Autowired
-CartController cartController;
-@Autowired
-CookieController cookieController;
-@Autowired
-TableOfGoods tableOfGoods;
+    @Autowired
+    Customer customer;
+    @Autowired
+    SQLController sqlController;
+    @Autowired
+    GoodsParameters goodsParameters;
+    @Autowired
+    ChangeGoodsQuantity changeGoodsQuantity;
+    @Autowired
+    ManageGoods manageGoods;
+    @Autowired
+    ManageCategories manageCategories;
+    @Autowired
+    ManageCart manageCart;
+    @Autowired
+    CartController cartController;
+    @Autowired
+    CookieController cookieController;
+    @Autowired
+    TableOfGoods tableOfGoods;
+    @Autowired
+    SortAWS sortAWS;
 
     //################################################################
     //################################################################
@@ -78,13 +81,13 @@ TableOfGoods tableOfGoods;
     }
     @RequestMapping("/a")
     public void getCookie(@CookieValue("myCookie") String fooCookie){
-       System.out.println(fooCookie);
+        System.out.println(fooCookie);
     }
 
     @RequestMapping(value = "/managegoods.html", method = RequestMethod.GET)
     public GoodsParameters testAddGoodsGet() throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
-      GoodsParameters newGood = new GoodsParameters();
-      return newGood;
+        GoodsParameters newGood = new GoodsParameters();
+        return newGood;
     }
     @RequestMapping(value = "/submitgood.html", method = RequestMethod.POST)
     public String testAddGoodsPost(@RequestParam("goodsName") String name, @RequestParam("categoryName") String categoryName, @RequestParam("id") int id,
@@ -93,6 +96,12 @@ TableOfGoods tableOfGoods;
         System.out.println(name + categoryName +id + price + quantity + tags);
         return "kekw?";
     }
+
+    @RequestMapping("/testSort")
+    public void testSort() throws SQLException {
+        sortAWS.sort("list_of_goods", "id");
+    }
+
     //################################################################
     //################################################################
 
@@ -100,7 +109,7 @@ TableOfGoods tableOfGoods;
     public String setCookie(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
         return "does the cookie work?";
-}
+    }
 
     @RequestMapping("/addGoods")
     public String addGoods(@RequestBody GoodsParameters goodsParameters) throws SQLException{ //takes "categoryName", "id", "goodsName", "price", "quantity", "tags"
