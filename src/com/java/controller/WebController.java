@@ -1,7 +1,7 @@
 package com.java.controller;
 
 import com.java.Customer.Customer;
-import com.java.fluff.SortAWS;
+import com.java.fluff.TestFluff;
 import com.java.model.ManageCart;
 import com.java.model.TableOfGoods;
 import com.java.goods.*;
@@ -43,7 +43,7 @@ public class WebController {
     @Autowired
     TableOfGoods tableOfGoods;
     @Autowired
-    SortAWS sortAWS;
+    TestFluff testFluff;
 
     //################################################################
     //################################################################
@@ -72,7 +72,8 @@ public class WebController {
     }
 
     @RequestMapping("/testpost")
-    public void post(@RequestBody Customer customer){
+    public String post() throws SQLException {
+        return testFluff.sort();
     }
 
     @RequestMapping("/asd")

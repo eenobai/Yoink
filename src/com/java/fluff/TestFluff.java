@@ -13,37 +13,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SortAWS {
+public class TestFluff {
 
     @Autowired
     SQLController sqlController;
 
-    public void sort(String category, String sortBy) throws SQLException {
-        if (sortBy.equals("id")) {
-            List<Integer> ids = new ArrayList();
-            List<String> goodsNames = new ArrayList();
-            List<Float> price = new ArrayList();
-            List<Integer> quantity = new ArrayList();
+    public String sort() throws SQLException {
+
             List<String> tags = new ArrayList();
 
             int i = 0;
 
             Statement statement = sqlController.sqlController().createStatement();
-            ResultSet myRs = statement.executeQuery("SELECT * FROM "+category+" ORDER BY "+sortBy+";");
-
+            ResultSet myRs = statement.executeQuery("SELECT * FROM list_of_goods;");
 
             while(myRs.next()){
-                ids.add(myRs.getInt("id"));
-                goodsNames.add(myRs.getString("goods_name"));
-                price.add(myRs.getFloat("price"));
-                quantity.add(myRs.getInt("quantity"));
                 tags.add(myRs.getString("tags"));
             }
-            System.out.println(ids.toString());
-            System.out.println(goodsNames.toString());
-            System.out.println(price.toString());
-            System.out.println(quantity.toString());
             System.out.println(tags.toString());
+            String replaced1 = tags.get(1).replace("[", "\"tags\":[ ");
+        System.out.println(replaced1);
+            String replaced2 = replaced1.replace("]", "\"]");
+        System.out.println(replaced2);
+            String replaced3 = replaced2.replace(" ", "\"");
+        System.out.println(replaced3);
+            String replaced4 = replaced3.replace(",", "\",");
+        System.out.println(replaced4);
+
+
+
+
 
 
             /*
@@ -53,7 +52,6 @@ public class SortAWS {
                 i++;
             }
 */
-        }
-
+        return replaced4;
     }
 }
