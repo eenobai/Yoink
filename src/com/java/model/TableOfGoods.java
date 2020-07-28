@@ -8,11 +8,9 @@ import org.springframework.stereotype.Controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class TableOfGoods {
@@ -54,6 +52,11 @@ public class TableOfGoods {
         }
 
         public void showTable (String category, String sortBy) throws SQLException {
+            java.util.Date date = new java.util.Date();
+            Timestamp timestamp1 = new Timestamp(date.getTime());
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(timestamp1.getTime());
+            cal.add(Calendar.SECOND, 1);
             sortingMess(category, sortBy);
 
             String leftAlignFormat = "| %-6s | %-16s | %-5s | %-6d | %-31s |%n";
@@ -75,5 +78,11 @@ public class TableOfGoods {
             quantity.clear();
             tags.clear();
             i = 0;
+            Timestamp timestamp2 = new Timestamp(cal.getTime().getTime());
+            long milliseconds = (timestamp2.getTime() - timestamp1.getTime()) - 1;
+            System.out.println(milliseconds);
+            System.out.println("tstamp start " + timestamp1);
+            System.out.println("tstamp end " + timestamp2);
+            System.out.println("Elapsed time " + milliseconds + "ms");
         }
 }
