@@ -2,11 +2,16 @@ package com.java.goods;
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 @Component
+@Entity
 public class GoodsParameters {
 
     private String categoryName;
-    private int id;
+    private @Id @GeneratedValue int id;
     private String goodsName;
     private double price;
     private int quantity;

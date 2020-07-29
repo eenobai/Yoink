@@ -30,15 +30,12 @@ public class TestFluff {
             while(myRs.next()){
                 tags.add(myRs.getString("tags"));
             }
-            System.out.println(tags.toString());
+            System.out.println(tags.get(1).toString());
             String replaced1 = tags.get(1).replace("[", "\"tags\":[ ");
-        System.out.println(replaced1);
             String replaced2 = replaced1.replace("]", "\"]");
-        System.out.println(replaced2);
             String replaced3 = replaced2.replace(" ", "\"");
-        System.out.println(replaced3);
             String replaced4 = replaced3.replace(",", "\",");
-        System.out.println(replaced4);
+             System.out.println(replaced4);
 
 
 

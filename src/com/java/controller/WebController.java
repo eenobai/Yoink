@@ -9,17 +9,24 @@ import com.java.model.ChangeGoodsQuantity;
 import com.java.model.ManageCategories;
 import com.java.model.ManageGoods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-@RestController
+@Controller
 public class WebController {
 
     @Autowired
@@ -47,6 +54,24 @@ public class WebController {
 
     //################################################################
     //################################################################
+
+    @RequestMapping("/index.html")
+    public void bla() throws FileNotFoundException, ScriptException, NoSuchMethodException {
+        //ScriptEngine engine = new ScriptEngineManager().getEngineByName("testEngine");
+        //engine.eval(new FileReader("C:\\Users\\Ilya\\Desktop\\Yoink\\src\\com\\js\\app.js"));
+        //Invocable invocable = (Invocable)engine;
+        //invocable.invokeFunction("test");
+        System.out.println("js works???");
+    }
+    @RequestMapping("/test.jsp")
+    public void blabla() throws FileNotFoundException, ScriptException, NoSuchMethodException {
+        //ScriptEngine engine = new ScriptEngineManager().getEngineByName("testEngine");
+        //engine.eval(new FileReader("C:\\Users\\Ilya\\Desktop\\Yoink\\src\\com\\js\\app.js"));
+        //Invocable invocable = (Invocable)engine;
+        //invocable.invokeFunction("test");
+        System.out.println("js works???");
+    }
+
     @RequestMapping("/testget")
     public HashMap<String, List<String>> test() throws SQLException {
         List<String> id = new ArrayList();
