@@ -10,6 +10,7 @@ import com.java.model.ManageCategories;
 import com.java.model.ManageGoods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.script.Invocable;
@@ -55,13 +56,12 @@ public class WebController {
     //################################################################
     //################################################################
 
-    @RequestMapping("/index.html")
-    public void bla() throws FileNotFoundException, ScriptException, NoSuchMethodException {
-        //ScriptEngine engine = new ScriptEngineManager().getEngineByName("testEngine");
-        //engine.eval(new FileReader("C:\\Users\\Ilya\\Desktop\\Yoink\\src\\com\\js\\app.js"));
-        //Invocable invocable = (Invocable)engine;
-        //invocable.invokeFunction("test");
-        System.out.println("js works???");
+    @RequestMapping(value="/index.html", method=RequestMethod.POST)
+    public void bla(@RequestParam String categoryName, Model model) throws FileNotFoundException, ScriptException, NoSuchMethodException {
+        GoodsParameters good = new GoodsParameters();
+        good.setCategoryName(categoryName);
+        model.addAttribute("wtf is this", good);
+        System.out.println("??");
     }
     @RequestMapping("/test.jsp")
     public void blabla() throws FileNotFoundException, ScriptException, NoSuchMethodException {

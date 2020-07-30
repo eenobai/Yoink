@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Title</title>
 </head>
 
-<script type="text/javascript">
-    var test = function(){
-    var myClass = java.type("com.java.controller.WebController");
-    myClass.bla();
-    }
-</script>
 
-<body>
-
-<h2 id="title">POST BLA BLA</h2>
-<input type="button" value="idk" onclick="test();">
-<p id="serverResponce"></p>
-
-</body>
+<form th:action="@{/good}" method="post" enctype="multipart/form-data">
+    <div>
+        First name: <input name="categoryName" />
+    </div>
+    <div>
+        <input type="submit" value="Create developer" name="button"/>
+    </div>
+</form>
 </html>
