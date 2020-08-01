@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,10 @@ public class CartController {
 
 
     public void cartMaker(HttpServletRequest request){
+        Date date = new Date();
+        int ts = (int) (new Date().getTime()/1000);
+        ArrayList<Integer> timestamp = new ArrayList(); // really bad
+        timestamp.add(ts);
         System.out.println("cookie val from carMaker " + cookieController.getCookie(request));
         if(carts.get(cookieController.getCookie(request))== null){
             HashMap<String, ArrayList<Integer>> tempMap = new HashMap();
@@ -36,6 +42,7 @@ public class CartController {
             blankListId.add(0);
             ArrayList <Integer> blankListQuantity = new ArrayList();
             blankListQuantity.add(0);
+            tempMap.put("time_stamp", timestamp);
             tempMap.put("item_ids", blankListId);
             tempMap.put("item_quantity", blankListQuantity);
             System.out.println("temp map from cart maker " + tempMap.toString());
@@ -45,6 +52,7 @@ public class CartController {
         }
     }
 
+    //Used in ManageCart in addToCart();
     public HashMap<String, ArrayList<Integer>> personalCart(HttpServletRequest request, int id, int quantity){
         String cookieVal = cookieController.getCookie(request);
 
