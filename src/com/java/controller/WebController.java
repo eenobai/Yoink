@@ -23,11 +23,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 
-@Controller
+@RestController
 public class WebController {
 
     @Autowired
@@ -174,6 +175,9 @@ public class WebController {
     @RequestMapping("/testCart")
     public HashMap<String, ArrayList<Integer>> testCart(HttpServletResponse servRes, HttpServletRequest servReq){
         cookieController.cookieController(servRes, servReq);
+        java.util.Date date = new java.util.Date();
+        int ts = (int) (new Date().getTime()/1000);
+        System.out.println(ts);
         return cartController.shoppingCart(servReq);
     }
 
@@ -181,6 +185,8 @@ public class WebController {
     public void showEverything(@RequestBody GoodsParameters goodsParameters) throws SQLException {
         System.out.println(goodsParameters.getSortBy());
         tableOfGoods.showTable(goodsParameters.getCategoryName(), goodsParameters.getSortBy());
+        //temp timestap for testing
+
     }
 
 }
